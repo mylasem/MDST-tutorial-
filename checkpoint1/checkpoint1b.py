@@ -17,20 +17,27 @@ Once you are finished with this program, you should run `python preprocess.py` f
 This should load the data, perform preprocessing, and save the output to the data folder.
 
 """
-
+import pandas as pd
 def remove_percents(df, col):
+    df[col] = df[col].str.slice(0,-1)
+#    pd.to_numeric(df)
     return df
-
 def fill_zero_iron(df):
+    df['Iron (% DV)'].replace
     return df
     
 def fix_caffeine(df):
+    df['Caffeine (mg)'].replace(['varies'], [df['Caffeine (mg)'].mean])
+    df['Caffeine (mg)'].replace(['Varies'], [df['Caffeine (mg)'].mean])
+    df['Caffeine (mg)'].replace([''], [df['Caffeine (mg)'].mean])
     return df
 
 def standardize_names(df):
+    df.columns = df.columns.str.strip().str.lower()
     return df
 
 def fix_strings(df, col):
+    df[col] = df.rename(str.lower, axis = 'columns')
     return df
 
 
@@ -63,8 +70,9 @@ def main():
     # the column names in this data are clear but inconsistent
     # complete the standardize_names function to convert all column names to lower case and remove the units (in parentheses)
     df = standardize_names(df)
-    
+
     # now that the data is all clean, save your output to the `data` folder as 'starbucks_clean.csv'
+    df.to_csv('../data/starbucks_clean.csv')
     # you will use this file in checkpoint 2
     
     
